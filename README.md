@@ -29,7 +29,6 @@
 
 ```
 npm i cdhandler --save
-npm i dotenv --save // This is optional, you only need it if you want to use a .env file for your token
 npm i cdcolours --save // This is optional, we use this for colourful console logs
 ```
 
@@ -38,28 +37,27 @@ npm i cdcolours --save // This is optional, we use this for colourful console lo
 # Setup
 
 JavaScript
+
 ```js
 // File Name (Main File) - index.js
 
 const colour = require("cdcolours");
 const Discord = require("discord.js");
 const { CDHandler } = require("cdhandler");
-require("dotenv").config();
 
 const client = new Discord.Client();
 
 client.on("ready", () => {
-
-new CDHandler(client, {
+  new CDHandler(client, {
     commandsDir: "commands", // String - commands directory
     eventsDir: "events", // String - events directory
     featuresDir: "features", // String - features directory
-    prefix: "!", 
+    prefix: "!",
     category: "Misc", // String - Default category for commands
     pingReply: true, // Boolean - If you want the bot to reply with it's prefix when it gets pinged
     devs: [], // Array - Bot Developer ID's for devOnly commands.
-    defaults: true // Boolean - active default commands
-  })
+    defaults: true, // Boolean - active default commands
+  });
 
   console.log(
     colour("[READY]", { textColour: "green" }) +
@@ -67,10 +65,11 @@ new CDHandler(client, {
   );
 });
 
-client.login(process.env.TOKEN);
+client.login("BOT_TOKEN");
 ```
 
 TypeScript
+
 ```ts
 // File Name (Main File) - index.ts
 
@@ -78,22 +77,21 @@ import colour from "cdcolours";
 import * as Discord from "discord.js";
 import { CDHandler } from "cdhandler";
 import { config as dotenv } from "dotenv";
-dotenv()
+dotenv();
 
 const client = new Discord.Client();
 
 client.on("ready", () => {
-
   new CDHandler(client, {
     commandsDir: "commands", // String - commands directory
     eventsDir: "events", // String - events directory
     featuresDir: "features", // String - features directory
-    prefix: "!", 
+    prefix: "!",
     category: "Misc", // String - Default category for commands
     pingReply: true, // Boolean - If you want the bot to reply with it's prefix when it gets pinged
     devs: [], // Array - Bot Developer ID's for devOnly commands.
-    defaults: true // Boolean - active default commands
-  })
+    defaults: true, // Boolean - active default commands
+  });
 
   console.log(
     colour("[READY]", { textColour: "green" }) +
@@ -101,7 +99,7 @@ client.on("ready", () => {
   );
 });
 
-client.login(process.env.TOKEN);
+client.login("BOT_TOKEN");
 ```
 
 <br>
@@ -113,7 +111,7 @@ All your command files need to be inside your commands directory. You can have a
 ## Options
 
 ```
-name* -- String | The name of the command 
+name* -- String | The name of the command
 
 aliases - Array | An array of aliases for the command
 cooldown - String | Cooldown JUST TO DISPLAY IN HELP MENU
@@ -151,6 +149,7 @@ hidden2 - Boolean | Makes the command partially invisible for help command (defa
 ## Command
 
 JavaScript
+
 ```js
 // File Name - ping.js
 
@@ -161,7 +160,7 @@ module.exports = {
   aliases: ["Pong"],
   description: "Replies with Pong!",
   cooldown: "5s",
-  cooldownMessage: 'Wait {REMAINING} more to execute this command again!',
+  cooldownMessage: "Wait {REMAINING} more to execute this command again!",
   //usage: "", it's not needed on this command
   //example: "", it's not needed on this command
   minArgs: 0,
@@ -179,24 +178,23 @@ module.exports = {
   botPermissionsMessage:
     "I cannot run this command without the 'Embed Links' permission!",
   category: "Misc",
-  locked: true, 
+  locked: true,
   lockedMessage: "This command is locked at the moment!",
   hidden: true,
   hidden2: true,
-  run: ({ message, args, client, handler }) => { 
+  run: ({ message, args, client, handler }) => {
     /* handler represents fireHandler but don't change the param name you can use callback, execute or run instead of fire */
-    const embed = new MessageEmbed()
-    .setColor("#00DCFF")
-    .setTitle("Pong!");
+    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
 
-    handler.cooldown(message, '5s') // this creates a cooldown
+    handler.cooldown(message, "5s"); // this creates a cooldown
   },
 };
 ```
 
 TypeScript
+
 ```ts
 // File Name - ping.ts
 
@@ -207,7 +205,7 @@ export default {
   aliases: ["Pong"],
   description: "Replies with Pong!",
   cooldown: "5s",
-  cooldownMessage: 'Wait {REMAINING} more to execute this command again!',
+  cooldownMessage: "Wait {REMAINING} more to execute this command again!",
   //usage: "", it's not needed on this command
   //example: "", it's not needed on this command
   minArgs: 0,
@@ -225,20 +223,18 @@ export default {
   botPermissionsMessage:
     "I cannot run this command without the 'Embed Links' permission!",
   category: "Misc",
-  locked: true, 
+  locked: true,
   lockedMessage: "This command is locked at the moment!",
   hidden: true,
   hidden2: true,
-  run: ({ message, args, client, handler }: any) => { 
+  run: ({ message, args, client, handler }: any) => {
     /* handler represents fireHandler but don't change the param name
      you can use callback, execute or run instead of fire */
-    const embed = new MessageEmbed()
-    .setColor("#00DCFF")
-    .setTitle("Pong!");
+    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
 
-    handler.cooldown(message, '5s') // this creates a cooldown
+    handler.cooldown(message, "5s"); // this creates a cooldown
   },
 };
 ```
@@ -249,65 +245,21 @@ export default {
 
 <h2>How to add Intellisense?</h2>
 
-JavaScript: 
+JavaScript:
+
 ```js
 // File Name - ping.js
 
-const { MessageEmbed } = require('discord.js')
-const { Command } = require('cdhandler') // <--
-module.exports = new Command({ // <--
-    name: "ping",
-    aliases: ["Pong"],
-    description: "Replies with Pong!",
-    cooldown: "5s",
-    cooldownMessage: 'Wait {REMAINING} more to execute this command again!',
-    //usage: "", it's not needed on this command
-    //example: "", it's not needed on this command
-    minArgs: 0,
-    maxArgs: 0,
-    argsMessage:
-      "Incorrect Arguments! There are no arguments required for this command!",
-    dev: true,
-    devMessage: "You must be a developer to run this command!",
-    nsfw: true,
-    nsfwMessage: "You cannot run this command in SFW channels!",
-    permissions: ["KICK_MEMBERS"],
-    permissionsMessage:
-      "You must have the 'Kick Members' permission to run this command!",
-    botPermissions: ["EMBED_LINKS"],
-    botPermissionsMessage:
-      "I cannot run this command without the 'Embed Links' permission!",
-    category: "Misc",
-    locked: true, 
-    lockedMessage: "This command is locked at the moment!",
-    hidden: true,
-    hidden2: true,
-    run: ({ message, args, client, handler }) => { 
-      /* handler represents fireHandler but don't change the param name you can use callback, execute or run instead of fire */
-      const embed = new MessageEmbed()
-      .setColor("#00DCFF")
-      .setTitle("Pong!");
-  
-      message.channel.send(embed);
-  
-      handler.cooldown(message, '5s') // this creates a cooldown
-    },
-  }); // <--
-```
+const { MessageEmbed } = require("discord.js");
+const { Command } = require("cdhandler"); // <--
 
-TypeScript
-```ts
-// File Name - ping.ts
-
-import { MessageEmbed } from "discord.js";
-import { Command, CommandOptions } from "cdhandler" // <--
-
-export default new Command({ // <--
+module.exports = new Command({
+  // <--
   name: "ping",
   aliases: ["Pong"],
   description: "Replies with Pong!",
   cooldown: "5s",
-  cooldownMessage: 'Wait {REMAINING} more to execute this command again!',
+  cooldownMessage: "Wait {REMAINING} more to execute this command again!",
   //usage: "", it's not needed on this command
   //example: "", it's not needed on this command
   minArgs: 0,
@@ -325,20 +277,65 @@ export default new Command({ // <--
   botPermissionsMessage:
     "I cannot run this command without the 'Embed Links' permission!",
   category: "Misc",
-  locked: true, 
+  locked: true,
   lockedMessage: "This command is locked at the moment!",
   hidden: true,
   hidden2: true,
-  run: ({ message, args, client, handler }: any) => { 
-    /* handler represents fireHandler but don't change the param name
-     you can use callback, execute or run instead of fire */
-    const embed = new MessageEmbed()
-    .setColor("#00DCFF")
-    .setTitle("Pong!");
+  run: ({ message, args, client, handler }) => {
+    /* handler represents fireHandler but don't change the param name you can use callback, execute or run instead of fire */
+    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
 
-    handler.cooldown(message, '5s') // this creates a cooldown
+    handler.cooldown(message, "5s"); // this creates a cooldown
+  },
+}); // <--
+```
+
+TypeScript
+
+```ts
+// File Name - ping.ts
+
+import { MessageEmbed } from "discord.js";
+import { Command, CommandOptions } from "cdhandler"; // <--
+
+export default new Command({
+  // <--
+  name: "ping",
+  aliases: ["Pong"],
+  description: "Replies with Pong!",
+  cooldown: "5s",
+  cooldownMessage: "Wait {REMAINING} more to execute this command again!",
+  //usage: "", it's not needed on this command
+  //example: "", it's not needed on this command
+  minArgs: 0,
+  maxArgs: 0,
+  argsMessage:
+    "Incorrect Arguments! There are no arguments required for this command!",
+  dev: true,
+  devMessage: "You must be a developer to run this command!",
+  nsfw: true,
+  nsfwMessage: "You cannot run this command in SFW channels!",
+  permissions: ["KICK_MEMBERS"],
+  permissionsMessage:
+    "You must have the 'Kick Members' permission to run this command!",
+  botPermissions: ["EMBED_LINKS"],
+  botPermissionsMessage:
+    "I cannot run this command without the 'Embed Links' permission!",
+  category: "Misc",
+  locked: true,
+  lockedMessage: "This command is locked at the moment!",
+  hidden: true,
+  hidden2: true,
+  run: ({ message, args, client, handler }: any) => {
+    /* handler represents fireHandler but don't change the param name
+     you can use callback, execute or run instead of fire */
+    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
+
+    message.channel.send(embed);
+
+    handler.cooldown(message, "5s"); // this creates a cooldown
   },
 } as CommandOptions); // <--
 ```
@@ -347,26 +344,32 @@ export default new Command({ // <--
 
 # Creating an Event
 
+When create an event, the file name needs to be whatever event you want. For example, if you want the `messageDelete` event your file would be called `messageDelete.js`.
+
 JavaScript
+
 ```js
 // file name = guildMemberRemove.js
 
-module.exports = (client, member) => { // member is the guildMemberRemove param
+module.exports = (client, member) => {
+  // member is the guildMemberRemove param
 
-    console.log(member.user.tag)
-}
+  console.log(member.user.tag);
+};
 ```
 
 TypeScript
+
 ```ts
 // file name = guildMemberRemove.ts
 
 import { Client } from "discord.js";
 
-export default (client: Client, member: any) => { // member is the guildMemberRemove param
+export default (client: Client, member: any) => {
+  // member is the guildMemberRemove param
 
-    console.log(member.user!.tag)
-}
+  console.log(member.user!.tag);
+};
 ```
 
 <br>
@@ -374,47 +377,47 @@ export default (client: Client, member: any) => { // member is the guildMemberRe
 # Creating a feature
 
 JavaScript
+
 ```js
 // Imagine you need 2 guildMemberRemove events
 
-module.exports = client => {
-
-  client.on('guildMemberRemove', member => {
-
-    console.log(member.user.tag)
-  })
-
-}
+module.exports = (client) => {
+  client.on("guildMemberRemove", (member) => {
+    console.log(member.user.tag);
+  });
+};
 ```
 
 Typescript
+
 ```ts
 // Imagine you need 2 guildMemberRemove events
 
 import { Client } from "discord.js";
 
-export default (client: Client) => { /* you can import Client from
+export default (client: Client) => {
+  /* you can import Client from
 discord.js and change the any type to Client */
 
-  client.on('guildMemberRemove', (member: any) => {
-
-    console.log(member.user!.tag)
-  })
-
-}
+  client.on("guildMemberRemove", (member: any) => {
+    console.log(member.user!.tag);
+  });
+};
 ```
 
 <br>
 
 # Prefixes
 
-<h2 loading="lazy"> How to add a prefix? </h2>
+## How to add a prefix?
 
 handler.prefixes.set('guild id', 'new prefix')
 
 Note: Prefixes are local host, if you have a db make sure to store them in the db and in a loop get all the prefixes and store them in fireHandler.prefixes.set()
 
-<h2> How to get a prefix? </h2>
+<br>
+
+## How to get a prefix?
 
 handler.prefixes.get('guild id') || handler.prefix
 
@@ -426,9 +429,9 @@ If you need any help or have any suggestions for the package please join our [Su
 
 This package uses [CDColours](https://npmjs.com/cdcolours) for the console logs!
 
-<h2>Special thanks:</h2>
+<br>
 
-to:
+## Special thanks to:
 
 - [CDCommands](https://npmjs.com/package/cdcommands)
 
