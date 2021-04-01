@@ -183,7 +183,7 @@ module.exports = {
   hidden: true,
   hidden2: true,
   run: ({ message, args, client, handler }) => {
-    /* handler represents fireHandler but don't change the param name you can use callback, execute or run instead of fire */
+    /* handler represents fireHandler but don't change the param name you can use callback, execute or fire instead of run */
     const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
@@ -229,7 +229,7 @@ export default {
   hidden2: true,
   run: ({ message, args, client, handler }: any) => {
     /* handler represents fireHandler but don't change the param name
-     you can use callback, execute or run instead of fire */
+     you can use callback, execute or fire instead of run */
     const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
@@ -282,8 +282,10 @@ module.exports = new Command({
   hidden: true,
   hidden2: true,
   run: ({ message, args, client, handler }) => {
-    /* handler represents fireHandler but don't change the param name you can use callback, execute or run instead of fire */
-    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
+
+    const embed = new MessageEmbed()
+    .setColor("#00DCFF")
+    .setTitle("Pong!");
 
     message.channel.send(embed);
 
@@ -329,9 +331,10 @@ export default new Command({
   hidden: true,
   hidden2: true,
   run: ({ message, args, client, handler }: any) => {
-    /* handler represents fireHandler but don't change the param name
-     you can use callback, execute or run instead of fire */
-    const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
+    
+    const embed = new MessageEmbed()
+    .setColor("#00DCFF")
+    .setTitle("Pong!");
 
     message.channel.send(embed);
 
