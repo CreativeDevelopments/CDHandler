@@ -10,7 +10,9 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
     client.on('message', async message => {
 
-        let prefix: any = defaultPrefix;
+        let prefix: any = [] 
+        if (typeof defaultPrefix == 'string') prefix.push(defaultPrefix)
+        else prefix.concat(defaultPrefix)
 
         if (message.author.bot || message.channel.type == 'dm') return;
         const { author, member, content, guild } = message
@@ -19,24 +21,18 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
         prefix = prefixes.get(message.guild!.id) || prefix || null;
 
-        if (!message.content.startsWith(prefix)) {
+        if (typeof prefix == 'string') prefix = [prefix]
+
+        if (prefix.some((p: string) => !message.content.startsWith(p))) {
             if(message.content.trim() == `<@!${client.user!.id}>` && ping) {
         
-                let guildPrefix: any = prefixes.get(message.guild!.id) || null;
-                if (guildPrefix == null) guildPrefix = defaultPrefix;
-        
-            if (typeof guildPrefix == 'string') return message.channel.send(`My prefix for ${message.guild!.name} is \`${guildPrefix}\``)
-            else if (guildPrefix[1]) return message.channel.send(`My prefixes for ${message.guild!.name} are \`${guildPrefix.join('\`, \`')}\``)
-            else return false;
+            if (typeof prefix == 'string' || !prefix[1]) return message.channel.send(`My prefix for ${message.guild!.name} is \`${prefix}\``)
+            else return message.channel.send(`My prefixes for ${message.guild!.name} are \`${prefix.join('\`, \`')}\``)
             } else return false;
+            return false;
           }
 
-        prefix = prefixes.get(message.guild!.id) || null;
-        if (!prefix || prefix == null) prefix = defaultPrefix;
-
-        if (typeof prefix == 'string') prefix = [prefix];
-
-        prefix.some((p: string) => {
+        prefix.forEach((p: string) => {
 
         if (message.channel.type == 'dm') return false;
 
@@ -46,7 +42,7 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
         // @ts-ignore
         const cmd: any = commands.get(cmdName.toLowerCase()) || commands.get(aliases.get(cmdName.toLowerCase())) || null
-        
+
         if (cmd) {
 
         if (content.toLowerCase().startsWith(`${command} `) || content.toLowerCase() === command) {
