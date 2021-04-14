@@ -7,6 +7,7 @@ const lockedEmbed = new MessageEmbed()
 .setDescription("You can't use this command now, please try again later")
 
 export default (handler: any, client: Client, defaultPrefix: string, ping: boolean, commands: Collection<string, Record<string, any>>, aliases: Collection<string[], Record<string, any>>, prefixes: Collection<string, Record<string, any>>, devs: string[], cd: any) => {
+
     client.on('message', async message => {
 
         let prefix: any = defaultPrefix;
@@ -24,23 +25,31 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
                 let guildPrefix: any = prefixes.get(message.guild!.id) || null;
                 if (guildPrefix == null) guildPrefix = defaultPrefix;
         
-              return message.channel.send(`My prefix for ${message.guild!.name} is \`${guildPrefix}\``)
+            if (typeof guildPrefix == 'string') return message.channel.send(`My prefix for ${message.guild!.name} is \`${guildPrefix}\``)
+            else if (guildPrefix[1]) return message.channel.send(`My prefixes for ${message.guild!.name} are \`${guildPrefix.join('\`, \`')}\``)
+            else return false;
             } else return false;
           }
 
         prefix = prefixes.get(message.guild!.id) || null;
         if (!prefix || prefix == null) prefix = defaultPrefix;
 
-        const args = message.content.slice(prefix.length).trim().split(/ +/g)
+        if (typeof prefix == 'string') prefix = [prefix];
+
+        prefix.some((p: string) => {
+
+        if (message.channel.type == 'dm') return false;
+
+        const args = message.content.slice(p.length).trim().split(/ +/g)
         const cmdName = args.shift();
-        const command = `${prefix}${cmdName?.toLowerCase()}`;
+        const command = `${p.toLowerCase()}${cmdName?.toLowerCase()}`;
 
         // @ts-ignore
-        const cmd = commands.get(cmdName.toLowerCase()) || commands.get(aliases.get(cmdName.toLowerCase())) || null
-        if (cmd == null) return;
+        const cmd: any = commands.get(cmdName.toLowerCase()) || commands.get(aliases.get(cmdName.toLowerCase())) || null
+        
+        if (cmd) {
 
         if (content.toLowerCase().startsWith(`${command} `) || content.toLowerCase() === command) {
-
 
         const {
             cooldownMessage,
@@ -49,14 +58,14 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             locked = false,
             lockedMessage = lockedEmbed,
             nsfw = false,
-            nsfwMessage,
+            nsfwMessage = "Run this command in a SFW channel!",
             permissions,
-            permissionsMessage,
+            permissionsMessage = "You don't have permissions to execute this command",
             minArgs = -1,
             maxArgs = null,
-            argsMessage,
+            argsMessage = "Incorrect usage!",
             botPermissions,
-            botPermissionsMessage,
+            botPermissionsMessage = "Make sure to give me permissions before executing this command",
             fire,
             callback,
             run,
@@ -93,9 +102,15 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
                remaining.toFixed(2)
                if (remaining > 0) {
                    if (cooldownMessage) {
+
                        message.channel.send(cooldownMessage.replace('{REMAINING}', ms(remaining)))
                        return;
-                   } else return;
+                   } else { 
+                    const cooldownEmbed = new MessageEmbed()
+                    .setTitle("⏲️ Calm down you're in a cooldown!")
+                    .setDescription(`Wait ${remaining} more to execute this command again`)
+                       return message.channel.send(cooldownEmbed); 
+                    }
                }
            }
 
@@ -118,7 +133,6 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
              return;
          }        
 
-
          if (fire) {
            fire({ message, args, client, handler })
            return;
@@ -135,7 +149,9 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
              throw new Error(colour("[FIRE-HANDLER] [ERROR]", { textColour: "red" }) + " Missing fire function in " + cmd.name);
          }
       
-
-    } else return;
+    } else return false;
+} 
+return false;
+})
 })
 }

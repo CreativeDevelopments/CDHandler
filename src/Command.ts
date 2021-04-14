@@ -1,4 +1,3 @@
-/* Credits for CDCommands */
 import { Message } from "discord.js";
 
 type CommandOptions = {

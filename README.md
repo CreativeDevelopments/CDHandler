@@ -128,7 +128,7 @@ example - String | A example
 dev - Boolean | If the command should be locked to developers only (Defined in the main file)
 devMessage - String | The response message for if a non-dev runs a developer only command
 
-nsfw - Boolean | If the command should be locked to NSFW channels
+nsfw - Boolean | If the command should be locked to SFW channels
 nsfwMessage - String | The response message for if a user runs a NSFW command in a SFW channel
 
 permissions - Array | Permissions the user needs to run the command

@@ -24,7 +24,7 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                 if (!cmd.name) throw new Error(colour("[CDHandler] [ERROR]", { textColour: "red" }) + " Command without name")
                 else if (!cmd.fire && !cmd.callback && !cmd.run && !cmd.execute) throw new Error(colour("[FIRE-HANDLER] [ERROR]", { textColour: "red" }) + " Command without fire function")
                 else { 
-                    Fcommands.set(cmd.name, cmd)
+                    Fcommands.set(cmd.name.toLowerCase(), cmd)
                     console.log(colour("[CDHandler]", { textColour: "blue" }) + " Loading command " + cmd.name)
 
                     if (cmd.aliases) {
