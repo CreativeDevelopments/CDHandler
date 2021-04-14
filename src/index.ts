@@ -45,7 +45,7 @@ class CDHandler {
 
       if (options.commandsDir) {
         loading((options.commandsDir || 'commands'), this.commands, this.aliases, this.categories, this.category);
-        fireMessage(this, this.client, this.prefix, (options.pingReply || true), this.commands, this.aliases, this.prefixes, this.devs, this.cd);
+        fireMessage(this, this.client, this.prefix, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
       }
 
       if (this.defaults) { 
