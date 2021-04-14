@@ -17,7 +17,7 @@
 - [Installation](#installation)
 - [Setup](#setup)
 - [Creating a Command](#creating-a-command)
-  - [Command Options](#properties)
+  - [Command Options](#options)
   - [Command](#command)
   - [Intellisense](#Intellisense)
 - [Creating an Event](#creating-an-event)
