@@ -142,7 +142,7 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             execute({ message, args, client, handler })
             return;
          } else {
-             throw new Error(colour("[FIRE-HANDLER] [ERROR]", { textColour: "red" }) + " Missing fire function in " + cmd.name);
+             throw new Error(colour("[CDHANDLER] [ERROR]", { textColour: "red" }) + " Missing run function in " + cmd.name);
          }
       
     } else return false;
