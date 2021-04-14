@@ -12,7 +12,7 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
         let prefix: any = [] 
         if (typeof defaultPrefix == 'string') prefix.push(defaultPrefix)
-        else prefix.concat(defaultPrefix)
+        else prefix = prefix.concat(defaultPrefix)
 
         if (message.author.bot || message.channel.type == 'dm') return;
         const { author, member, content, guild } = message
@@ -21,18 +21,19 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
         prefix = prefixes.get(message.guild!.id) || prefix || null;
 
+        if (prefix == null) return
+
         if (typeof prefix == 'string') prefix = [prefix]
 
-        if (prefix.some((p: string) => !message.content.startsWith(p))) {
             if(message.content.trim() == `<@!${client.user!.id}>` && ping) {
         
-            if (typeof prefix == 'string' || !prefix[1]) return message.channel.send(`My prefix for ${message.guild!.name} is \`${prefix}\``)
-            else return message.channel.send(`My prefixes for ${message.guild!.name} are \`${prefix.join('\`, \`')}\``)
-            } else return false;
-            return false;
-          }
-
+            if (typeof prefix == 'string' || !prefix[1]) return message.channel.send(`My prefix for **${message.guild!.name}** is \`${typeof prefix == 'string' ? prefix : prefix.join(' ')}\``)
+            else return message.channel.send(`My prefixes for **${message.guild!.name}** are \`${prefix.join('\`, \`')}\``)
+            }
+ 
         prefix.forEach((p: string) => {
+
+        if (!message.content.startsWith(p)) return
 
         if (message.channel.type == 'dm') return false;
 
@@ -42,7 +43,6 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
 
         // @ts-ignore
         const cmd: any = commands.get(cmdName.toLowerCase()) || commands.get(aliases.get(cmdName.toLowerCase())) || null
-
         if (cmd) {
 
         if (content.toLowerCase().startsWith(`${command} `) || content.toLowerCase() === command) {
