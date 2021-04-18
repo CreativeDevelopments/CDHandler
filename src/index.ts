@@ -7,6 +7,8 @@ import fireMessage from './message/message';
 import loadDefaultCommands from './defaults/load-commands';
 import Command, { CommandOptions } from "./Command";
 
+require("./coffee")()
+
 interface CDHandler {
 client: Client,
 commands: Collection<string, Record<string, any>>;
@@ -49,7 +51,7 @@ class CDHandler {
       }
 
       if (this.defaults) { 
-        loadDefaultCommands(this.commands, this.aliases, this.categories, this.category);
+        if (options.commandsDir) loadDefaultCommands(this.commands, this.aliases, this.categories, this.category);
       }
 
       if (options.eventsDir) {
@@ -83,6 +85,8 @@ class CDHandler {
         this.cd.set(name + message.guild!.id + message.author!.id, Date.now() + time);
     }
 }
+
+
 
 export { Command, CDHandler }
 export type { CommandOptions }
