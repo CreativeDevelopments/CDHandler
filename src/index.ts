@@ -7,8 +7,6 @@ import fireMessage from './message/message';
 import loadDefaultCommands from './defaults/load-commands';
 import Command, { CommandOptions } from "./Command";
 
-require("./coffee")()
-
 interface CDHandler {
 client: Client,
 commands: Collection<string, Record<string, any>>;

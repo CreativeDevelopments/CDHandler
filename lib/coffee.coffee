@@ -1,13 +1,13 @@
 fs = require('fs')
 
-require.extensions[".coffee"] = (module, filename) =>
+require.extensions[`.coffee`] = (module, filename) =>
 
     module._compile(
-        import 'coffeescript'
+        require('coffeescript')
         .compile(
             fs.readFileSync(
                 filename,
-                {encoding: "utf8"}
+                {encoding:"utf8"}
             )
         ),
         filename

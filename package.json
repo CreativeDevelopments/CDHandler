@@ -1,9 +1,10 @@
 {
   "name": "cdhandler",
-  "version": "1.1.2",
-  "description": "A simple to use TypeScript and JavaScript command / event handler.",
+  "version": "1.2.2",
+  "description": "A simple to use TypeScript, JavaScript and CoffeeScript command / event handler.",
   "main": "lib/index.js",
   "types": "lib",
+  "type": "module",
   "repository": "https://github.com/CreativeDevelopments/CDHandler",
   "scripts": {
     "build": "tsc -p ."
