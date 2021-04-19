@@ -4,7 +4,8 @@ import CDHandler from "./CDHandler"
 
 require.extensions[".coffee"] = (module, filename) =>
 
-    exports._compile(
+// @ts-ignore
+    module._compile(
         require('coffeescript')
         .compile(
             fs.readFileSync(
@@ -16,6 +17,5 @@ require.extensions[".coffee"] = (module, filename) =>
     )
 ;
 
-export default CDHandler
-export { Command }
+export { Command, CDHandler }
 export type { CommandOptions }

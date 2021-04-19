@@ -1,6 +1,5 @@
 import Command, { CommandOptions } from "./Command";
 import CDHandler from "./CDHandler";
-export default CDHandler;
-export { Command };
+export { Command, CDHandler };
 export type { CommandOptions };
 //# sourceMappingURL=index.d.ts.map
