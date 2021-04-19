@@ -11,7 +11,7 @@ const loadDefaultCommands = async (Fcommands: Collection<string, Record<string, 
     for (const file of files) {
     if (!file) return;
 
-            if ((file.endsWith(".js") || file.endsWith(".ts")) && !file.endsWith(".d.ts")) {
+            if ((file.endsWith(".coffee") || file.endsWith(".js") || file.endsWith(".ts")) && !file.endsWith(".d.ts")) {
 
                 const cmd = (await import(`./commands/${file}`)).default
 

@@ -17,7 +17,7 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
         const isFolder = lstatSync(join(process.cwd(), dir, file))
         if (isFolder.isDirectory()) register(join(dir, file), Fcommands, Faliases, Fcategories, Fcategory)
         else {
-            if (file.endsWith(".js") || file.endsWith(".ts") && !file.endsWith(".d.ts")) {
+            if (file.endsWith(".coffee") || file.endsWith(".js") || file.endsWith(".ts") && !file.endsWith(".d.ts")) {
 
                 const cmd = (await import(join(process.cwd(), dir, file))).default
                 
