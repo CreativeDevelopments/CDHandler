@@ -5,20 +5,27 @@ export default (map: Collection<string, Record<string, any>>, client: Client) =>
     client.ws.on('INTERACTION_CREATE' as any, async interaction => {
 
         let send;
+        let number;
         let guild = client.guilds.cache.get(interaction.guild_id) || await client.guilds.fetch(interaction.guild_id)
-        let member = guild.members.cache.get(interaction.user_id) || await guild.members.fetch(interaction.user_id)
+        let member = guild.members.cache.get(interaction.member.user.id) || await guild.members.fetch(interaction.member.user.id)
         let user = member.user
         let channel = client.channels.cache.get(interaction.channel_id) || await client.channels.fetch(interaction.channel_id)
        
 
         console.log(interaction)
-        const cmd = map.get(interaction.id) ?? null
-        if (cmd == null) send = 'ERROR'
-        else send = cmd!.run({ interaction, guild, channel, member, user })
+        const cmd = map.get(interaction.data.id) ?? null
+        if (cmd == null) {
+           send = 'ERROR'
+           number = 4
+        }
+        else { 
+            number = cmd.type ? cmd.type : 4
+            send = await cmd!.run({ interaction, guild, channel, member, user })
+        }
        
         // @ts-ignore
         client.api.interactions(interaction.id, interaction.token).callback.post({data: {
-          type: cmd!.type,
+          type: number,
           data: {
             content: send
             }
