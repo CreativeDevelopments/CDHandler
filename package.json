@@ -1,6 +1,6 @@
 {
   "name": "cdhandler",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A simple to use TypeScript, JavaScript and CoffeeScript command / event handler.",
   "main": "lib/index.js",
   "types": "lib",
