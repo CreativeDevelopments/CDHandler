@@ -275,40 +275,40 @@ CoffeeScript
 { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "ping",
-  aliases: ["Pong"],
-  description: "Replies with Pong!",
-  cooldown: "5s",
-  cooldownMessage: "Wait {REMAINING} more to execute this command again!",
+  name: "ping"
+  aliases: ["Pong"]
+  description: "Replies with Pong!"
+  cooldown: "5s"
+  cooldownMessage: "Wait {REMAINING} more to execute this command again!"
   # usage: "", it's not needed on this command
   # example: "", it's not needed on this command
-  minArgs: 0,
-  maxArgs: 0,
+  minArgs: 0
+  maxArgs: 0
   argsMessage:
-    "Incorrect Arguments! There are no arguments required for this command!",
-  dev: true,
-  devMessage: "You must be a developer to run this command!",
-  nsfw: true,
-  nsfwMessage: "You cannot run this command in SFW channels!",
-  permissions: ["KICK_MEMBERS"],
+    "Incorrect Arguments! There are no arguments required for this command!"
+  dev: true
+  devMessage: "You must be a developer to run this command!"
+  nsfw: true
+  nsfwMessage: "You cannot run this command in SFW channels!"
+  permissions: ["KICK_MEMBERS"]
   permissionsMessage:
-    "You must have the 'Kick Members' permission to run this command!",
-  botPermissions: ["EMBED_LINKS"],
+    "You must have the 'Kick Members' permission to run this command!"
+  botPermissions: ["EMBED_LINKS"]
   botPermissionsMessage:
-    "I cannot run this command without the 'Embed Links' permission!",
-  category: "Misc",
-  locked: true,
-  lockedMessage: "This command is locked at the moment!",
-  hidden: true,
-  hidden2: true,
-  run: ({ message, args, client, handler }) => {
-    # handler represents fireHandler but don't change the param name you can use callback, execute or fire instead of run 
+    "I cannot run this command without the 'Embed Links' permission!"
+  category: "Misc"
+  locked: true
+  lockedMessage: "This command is locked at the moment!"
+  hidden: true
+  hidden2: true
+  run: ({ message, args, client, handler }) -> 
+    # handler represents CDHandler but don't change the param name you can use callback, execute or fire instead of run 
     embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
-    message.channel.send(embed);
+    message.channel.send embed
 
     handler.cooldown(message, "5s"); # this creates a cooldown
-  },
+  
 };
 ```
 
