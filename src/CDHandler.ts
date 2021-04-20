@@ -5,58 +5,86 @@ import features from './load/load-features';
 import events from './load/load-events';
 import fireMessage from './message/message';
 import loadDefaultCommands from './defaults/load-commands';
+import colour from "cdcolours";
 
 interface CDHandler {
     client: Client,
-    commands: Collection<string, Record<string, any>>;
-    aliases: Collection<string[], Record<string, any>>;
-    prefixes: Collection<string, Record<string, any>>;
-    categories: any;
-    disabled: Collection<any, any>
-    pingReply: boolean,
-    category: string,
-    devs: string[],
-    prefix: string,
-    defaults: boolean
-    commandsDir: string | boolean
-    eventsDir: string | boolean
-    featuresDir: string | boolean
-    cd: any,
+    pingReply?: boolean,
+    category?: string,
+    devs?: string[],
+    prefix?: string,
+    defaults?: boolean
+    commandsDir?: string | boolean
+    eventsDir?: string | boolean
+    featuresDir?: string | boolean
+    warnings?: boolean
     };
+
+    type CDH = {
+      commandsDir?: string
+      eventsDir?: string
+      featuresDir?: string
+      defaults?: boolean
+      prefix?: string
+      category?: string
+      pingReply?: boolean
+      devs?: string[] | undefined
+      warnings?: boolean
+
+    }
     
-    
+
     class CDHandler {
+
+      private _prefix = "!"
+      private _warnings = false;
+
+      public commands: Collection<string, Record<string, any>> = new Collection()
+      public aliases: Collection<string[], Record<string, any>> = new Collection()
+      public prefixes: Collection<string, Record<string, any>> = new Collection()
+      public categories: Collection<string, string[]> = new Collection()
+      public disabled: Collection<any, any> = new Collection()
+      public cd: Collection<string, number> = new Collection()
+
+      private static _pingReply = true
+      private static _defaults = true
+      private static _category = "Misc"
+      private static _commandsDir = "commands"
+      private static _eventsDir = "events"
+      private static _featuresDir = "features"
+
      
-          constructor(client: Client, options: any = { commandsDir: false, eventsDir: false, featuresDir: false, defaults: true, prefix: "!", category: "Misc", pingReply: true, devs: []}) {
-    
-          this.commands = new Collection();
-          this.aliases = new Collection();
-          this.prefixes = new Collection();
-          this.categories = new Collection();
-          this.disabled = new Collection();
-          this.cd = new Collection();
+          constructor(client: Client, options?: CDH) {
+
           this.client = client;
-          this.pingReply = options.pingReply ?? true;
-          this.category = options.category ?? "Misc";
-          this.devs = options.devs ?? [];
-          this.prefix = options.prefix ?? "!";
-          this.defaults = options.defaults ?? true;
+          this.pingReply = options?.pingReply === false ? options.pingReply : CDHandler._pingReply;
+          this.category = options?.category ? options.category : CDHandler._category;
+          this.devs = options?.devs ?? [];
+
+          if (options?.warnings) this._warnings = true
+
+
+          if (options?.prefix) this._prefix = options.prefix
+  
+          this.defaults = options?.defaults ? options.defaults : CDHandler._defaults;
+
+          if (this._warnings) console.log(colour("[CDHandler] ", { textColour: "magenta" }) + " CoffeeScript support isn't stable.")
     
-          if (options.commandsDir) {
-            loading((options.commandsDir || 'commands'), this.commands, this.aliases, this.categories, this.category);
-            fireMessage(this, this.client, this.prefix, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
+          if (options?.commandsDir) {
+            loading((options.commandsDir || CDHandler._commandsDir), this.commands, this.aliases, this.categories, this.category);
+            fireMessage(this, this.client, this._prefix, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
           }
     
           if (this.defaults) { 
-            if (options.commandsDir) loadDefaultCommands(this.commands, this.aliases, this.categories, this.category);
+            if (options?.commandsDir) loadDefaultCommands(this.commands, this.aliases, this.categories, this.category);
           }
     
-          if (options.eventsDir) {
-            events(this.client, (options.eventsDir || 'events'));
+          if (options?.eventsDir) {
+            events(this.client, (options.eventsDir || CDHandler._eventsDir));
           }
     
-          if (options.featuresDir) {
-            features(this.client, (options.featuresDir || 'features'));
+          if (options?.featuresDir) {
+            features(this.client, (options.featuresDir || CDHandler._featuresDir));
           }
         }
     

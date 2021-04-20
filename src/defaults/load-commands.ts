@@ -32,7 +32,7 @@ const loadDefaultCommands = async (Fcommands: Collection<string, Record<string, 
                         Faliases.set(command.toLowerCase(), cmd.name) 
                       }
                     }
-                        let category = cmd.category || Fcategory || "Misc"
+                        let category = cmd.category || Fcategory
                  
                         let categoryGetter = Fcategories.get(category.toLowerCase())
                         if(!categoryGetter) categoryGetter = [category]

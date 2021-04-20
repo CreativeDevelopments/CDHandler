@@ -211,7 +211,7 @@ module.exports = {
   hidden: true,
   hidden2: true,
   run: ({ message, args, client, handler }) => {
-    /* handler represents fireHandler but don't change the param name you can use callback, execute or fire instead of run */
+    /* handler represents CDHandler but don't change the param name you can use callback, execute or fire instead of run */
     const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
     message.channel.send(embed);
@@ -256,7 +256,7 @@ export default {
   hidden: true,
   hidden2: true,
   run: ({ message, args, client, handler }: any) => {
-    /* handler represents fireHandler but don't change the param name
+    /* handler represents CDHandler but don't change the param name
      you can use callback, execute or fire instead of run */
     const embed = new MessageEmbed().setColor("#00DCFF").setTitle("Pong!");
 
@@ -489,7 +489,7 @@ discord.js and change the any type to Client */
 
 handler.prefixes.set('guild id', 'new prefix')
 
-Note: Prefixes are local host, if you have a db make sure to store them in the db and in a loop get all the prefixes and store them in fireHandler.prefixes.set()
+Note: Prefixes are local host, if you have a db make sure to store them in the db and in a loop get all the prefixes and store them in CDHandler.prefixes.set()
 
 <br>
 
