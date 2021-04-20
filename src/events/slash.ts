@@ -6,11 +6,12 @@ export default (map: Collection<string, Record<string, any>>, client: Client) =>
 
         let send;
         let guild = client.guilds.cache.get(interaction.guild_id) || await client.guilds.fetch(interaction.guild_id)
-        let member = guild.members.cache.get(interaction.user.id) || await guild.members.fetch(interaction.user.id)
+        let member = guild.members.cache.get(interaction.user_id) || await guild.members.fetch(interaction.user_id)
         let user = member.user
         let channel = client.channels.cache.get(interaction.channel_id) || await client.channels.fetch(interaction.channel_id)
        
 
+        console.log(interaction)
         const cmd = map.get(interaction.id) ?? null
         if (cmd == null) send = 'ERROR'
         else send = cmd!.run({ interaction, guild, channel, member, user })
