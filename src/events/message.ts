@@ -65,8 +65,16 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             fire,
             callback,
             run,
-            execute
+            execute,
+            servers = [],
+            serversMessage = "This command isn't allowed in this server.",
            } = cmd
+
+           if (servers[0] && !servers.includes(message.guild!.id)) {
+           if (serversMessage) {
+           return message.channel.send(serversMessage)
+           } else return false;
+        }
 
            if (locked) {
                if (lockedMessage) {

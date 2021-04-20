@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import Command, { CommandOptions } from "./Command";
-import CDHandler from "./CDHandler"
+import * as fs from 'fs';
+import Command, { CommandOptions } from "./Command";;
+import CDHandler from "./CDHandler";
 
 require.extensions[".coffee"] = (module, filename) =>
 
@@ -17,5 +17,5 @@ require.extensions[".coffee"] = (module, filename) =>
     )
 ;
 
-export { Command, CDHandler }
-export type { CommandOptions }
+export { Command, CDHandler };
+export type { CommandOptions };

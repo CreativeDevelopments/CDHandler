@@ -29,6 +29,10 @@ type CommandOptions = {
     run?: any,
     execute?: any,
     callback?: any,
+    slash?: boolean,
+    servers?: string[]
+    type?: number,
+    serversMessage?: string
 }
 
 
@@ -60,6 +64,10 @@ interface Command {
     run?: any,
     execute?: any,
     callback?: any,
+    slash?: boolean,
+    servers?: string[]
+    type?: number,
+    serversMessage?: string
     }
 
 class Command {
@@ -91,6 +99,10 @@ class Command {
     run,
     execute,
     callback,
+    slash,
+    servers,
+    type,
+    serversMessage,
   }: CommandOptions) {
 
     this.nsfw = nsfw
@@ -120,6 +132,10 @@ class Command {
     this.lockedMessage = lockedMessage;
     this.botPermissions = botPermissions;
     this.botPermissionsMessage = botPermissionsMessage;
+    this.slash = slash;
+    this.servers = servers
+    this.type = type
+    this.serversMessage = serversMessage
   }
 };
 
