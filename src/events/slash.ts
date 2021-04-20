@@ -11,8 +11,6 @@ export default (map: Collection<string, Record<string, any>>, client: Client) =>
         let user = member.user
         let channel = client.channels.cache.get(interaction.channel_id) || await client.channels.fetch(interaction.channel_id)
        
-
-        console.log(interaction)
         const cmd = map.get(interaction.data.id) ?? null
         if (cmd == null) {
            send = 'ERROR'
