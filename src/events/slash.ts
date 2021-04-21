@@ -1,4 +1,4 @@
-import { APIMessage, Collection, Client, MessageEmbed } from "discord.js"
+import { APIMessage, Collection, Client, MessageEmbed, DataResolver } from "discord.js"
 
 export default (map: Collection<string, Record<string, any>>, client: Client, handler: any) => {
 
@@ -6,8 +6,14 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         const { options } = interaction.data
 
+        let data: any = {
+          send: undefined,
+          embed: undefined
+        }
+
+        let toSend;
+
         let args: any = {}
-        let send;
         let number;
         let guild = client.guilds.cache.get(interaction.guild_id) || await client.guilds.fetch(interaction.guild_id)
         let member = guild.members.cache.get(interaction.member.user.id) || await guild.members.fetch(interaction.member.user.id)
@@ -30,25 +36,24 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         const cmd = map.get(interaction.data.id) ?? null
         if (cmd == null) {
-           send = 'ERROR'
+           data.toSend = 'ERROR'
            number = 4
         } else { 
             number = cmd.type ? cmd.type : 4
-            send = await cmd!.run({ message, args, client, handler, interaction })
+            toSend = await cmd!.run({ message, args, client, handler, interaction })
         }
 
-        if (send instanceof MessageEmbed) {
-          send = await createAPIMessage(client, interaction, send) as any
-          send = send.embed
-          send = JSON.stringify(send)
-        };
+        if (data.toSend instanceof MessageEmbed) {
+          data.embed = await createAPIMessage(client, interaction, toSend) as any
+          data.embed = JSON.stringify(data.embed)
+        } else {
+          data.content = toSend
+        }
        
         // @ts-ignore
         client.api.interactions(interaction.id, interaction.token).callback.post({data: {
           type: number,
-          data: {
-            content: send
-            }
+          data
           }
         })
       })
