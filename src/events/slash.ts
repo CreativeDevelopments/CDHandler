@@ -43,10 +43,10 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
             toSend = await cmd!.run({ message, args, client, handler, interaction })
         }
 
-        if (typeof data.toSend == "object") {
+        if (typeof toSend == "object") {
           let created = await createAPIMessage(client, interaction, toSend) as any
-          data.embed = JSON.parse(created)
-          console.log(data.embed)
+          data.embed = JSON.stringify(created)
+
         } else {
           data.content = toSend
         }
