@@ -43,8 +43,7 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
         }
 
         if (typeof toSend == "object") {
-          let created = await createAPIMessage(client, interaction, toSend) as any
-          data.content = JSON.stringify(created)
+          data = await createAPIMessage(client, interaction, toSend) as any
 
         } else {
           data.content = toSend
