@@ -39,8 +39,9 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         if (typeof send == "object") {
           send = await createAPIMessage(client, interaction, send)
+          console.log(send, "\n\n\n\n\n")
           // @ts-ignore
-          send = JSON.stringify(send.content)
+          send = send.content
           console.log(send)
         };
        
