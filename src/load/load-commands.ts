@@ -65,7 +65,7 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                         cmd.servers.forEach(async (server: any) => {
 
                             // @ts-ignore
-                            let sls = await client.api.applications(client.user?.id).guilds(server).commands.get()
+                            let sls = await client.api.applications(client.user?.id).guilds(server.id).commands.get()
                             let sl = sls.find((s: any) => s.name.toLowerCase() == cmd.name) ?? null
 
                             if (sl == null) return;

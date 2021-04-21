@@ -4,7 +4,10 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
     client.ws.on('INTERACTION_CREATE' as any, async interaction => {
 
-        let send;
+        let send = {
+          content: "ERROR"
+        } as any
+
         let number;
         let guild = client.guilds.cache.get(interaction.guild_id) || await client.guilds.fetch(interaction.guild_id)
         let member = guild.members.cache.get(interaction.member.user.id) || await guild.members.fetch(interaction.member.user.id)
@@ -13,14 +16,14 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         const cmd = map.get(interaction.data.id) ?? null
         if (cmd == null) {
-           send = 'ERROR'
+           send.content = 'ERROR'
            number = 4
         }
         else { 
             number = cmd.type ? cmd.type : 4
-            send = await cmd!.run({ interaction, guild, channel, member, user, handler })
+            send.content = await cmd!.run({ interaction, guild, channel, member, user, handler })
 
-            if (typeof send == "object") {
+            if (typeof send.content == "object") {
               send = await createAPIMessage(client, interaction, send);
             }
         }
@@ -28,9 +31,7 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
         // @ts-ignore
         client.api.interactions(interaction.id, interaction.token).callback.post({data: {
           type: number,
-          data: {
-            content: send
-            }
+          data: send
           }
         })
       })
