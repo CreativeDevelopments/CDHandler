@@ -3,7 +3,6 @@ import { readdirSync, lstatSync, existsSync, mkdirSync } from "fs";
 import colour from 'cdcolours';
 import { Collection, Client } from "discord.js";
 import fetch from 'node-fetch'
-import { ServerResponse } from "node:http";
 
 const register = async (dir: any, Fcommands: Collection<string, Record<string, any>>, Faliases: Collection<string[], Record<string, any>>, Fcategories: any, Fcategory: string, client: Client, Fslash: Collection<string, Record<string, string>>) => {
 
@@ -54,13 +53,15 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                         let slashCommand = slashes.find((s: any) => s.name.toLowerCase() == cmd.name) ?? null
                         if (slashCommand == null) continue;
                         else {
+
+
                             // @ts-ignore
                             await client.api.applications(client.user?.id).commands(slashCommand.id).delete().catch((err: any) => console.error(err))
                             console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting slash command " + slashCommand.name)
                         }
                     } else {
 
-                        let deleted;
+                        let deleted = false;
 
                         cmd.servers.forEach(async (server: any) => {
 
@@ -70,8 +71,14 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
 
                             if (sl == null) return;
                             else {
-                                // @ts-ignore
-                                await client.api.applications(client.user?.id).guilds(server.id).commands(sl.id).delete().catch((err: any) => console.error(err))
+                  
+                                await fetch(`https://discord.com/api/v8/applications/${client.user!.id}/guilds/${server}/commands/${sl.id}`, {
+                                method: 'delete',
+                                headers: {
+                                  'Authorization': 'Bot ' + client.token,
+                                  'Content-Type': 'application/json'
+                                }
+                              })
                                 deleted = true;
                             }
                         })
