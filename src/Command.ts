@@ -29,7 +29,7 @@ type CommandOptions = {
     run?: any,
     execute?: any,
     callback?: any,
-    slash?: boolean,
+    slash?: boolean | string,
     servers?: string[]
     type?: number,
     serversMessage?: string
@@ -64,7 +64,7 @@ interface Command {
     run?: any,
     execute?: any,
     callback?: any,
-    slash?: boolean,
+    slash?: boolean | string,
     servers?: string[]
     type?: number,
     serversMessage?: string

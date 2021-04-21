@@ -145,13 +145,18 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             let running = cmd.run ? cmd.run : cmd.fire ? cmd.fire : cmd.execute ? cmd.execute : cmd.callback ? cmd.callback : null
             if (running == null) throw new Error(colour("[CDHANDLER] [ERROR]", { textColour: "red" }) + " Missing run function in " + cmd.name);
             else r = await running({ message, args, client, handler })
-            if (typeof r == "string") result = [r]
+            if (typeof r == "string" || typeof r == "number" || r instanceof MessageEmbed) result = [r]
 
-            result?.forEach((r: any) => {
+            if (result && result[0]) {
+                result?.forEach((r: any) => {
                 message.channel.send(r)
-            })
-
-            return;
+            }) 
+            
+            } else {
+                message.channel.send(r)
+                return false;
+            }
+            return false;
 
          } else {
 

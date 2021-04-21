@@ -1,4 +1,4 @@
-import { APIMessage, Collection, Client } from "discord.js"
+import { APIMessage, Collection, Client, MessageEmbed } from "discord.js"
 
 export default (map: Collection<string, Record<string, any>>, client: Client, handler: any) => {
 
@@ -37,12 +37,9 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
             send = await cmd!.run({ message, args, client, handler, interaction })
         }
 
-        if (typeof send == "object") {
-          send = await createAPIMessage(client, interaction, send)
-          console.log(send, "\n\n\n\n\n")
-          // @ts-ignore
-          send = send.content
-          console.log(send)
+        if (send instanceof MessageEmbed) {
+          send = await createAPIMessage(client, interaction, send) as any
+          send = send.embed
         };
        
         // @ts-ignore
