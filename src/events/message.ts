@@ -145,8 +145,8 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             let running = cmd.run ? cmd.run : cmd.fire ? cmd.fire : cmd.execute ? cmd.execute : cmd.callback ? cmd.callback : null
             if (running == null) throw new Error(colour("[CDHANDLER] [ERROR]", { textColour: "red" }) + " Missing run function in " + cmd.name);
             else r = await running({ message, args, client, handler })
-            if (typeof r != "string" && typeof r != "number" && typeof r != "object") result = r
-            else result = [r]
+            if (typeof running == "string" && typeof running == "number") result = [running]
+            else result = [...running]
 
             if (result && result[0]) {
                 result?.forEach((r: any) => {
