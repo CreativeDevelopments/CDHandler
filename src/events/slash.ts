@@ -7,7 +7,7 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
         const { options } = interaction.data
 
         let data: any = {
-          send: undefined,
+          content: undefined,
           embed: undefined
         }
 
@@ -36,19 +36,16 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         const cmd = map.get(interaction.data.id) ?? null
         if (cmd == null) {
-           data.toSend = 'ERROR'
+           toSend = 'ERROR'
            number = 4
         } else { 
             number = cmd.type ? cmd.type : 4
             toSend = await cmd!.run({ message, args, client, handler, interaction })
         }
 
-        if (data.toSend instanceof MessageEmbed) {
+        if (typeof data.toSend == "object") {
           let created = await createAPIMessage(client, interaction, toSend) as any
-          console.log(created, "\n\n\n\n")
           data.embed = JSON.stringify(created)
-          console.log(data)
-          console.log(data.embed)
         } else {
           data.content = toSend
         }
