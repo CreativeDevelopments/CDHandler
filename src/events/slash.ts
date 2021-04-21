@@ -27,7 +27,7 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
               // @ts-ignore
               send.content = (await createAPIMessage(client, interaction, send)).content
               
-              console.log(send, "\n\n\n\n\n\n\n\n\n");
+              console.log(send.content, "\n\n\n\n\n\n\n\n\n");
               console.log(send[0])
             }
         }
