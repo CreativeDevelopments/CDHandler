@@ -31,7 +31,7 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
             else return message.channel.send(`My prefixes for **${message.guild!.name}** are \`${prefix.join('\`, \`')}\``)
             }
  
-        prefix.forEach((p: string) => {
+        prefix.forEach(async (p: string) => {
 
         if (!message.content.startsWith(p)) return
 
@@ -135,7 +135,25 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
          if (args.length < minArgs || (maxArgs !== null && args.length > maxArgs)) {
              message.channel.send(argsMessage)
              return;
-         }        
+         }
+                 
+                 
+         if (cmd.slash && typeof cmd.slash == 'string' && cmd.slash.toLowerCase() == 'both') {
+
+            let result;
+            let r;
+            let running = cmd.run ? cmd.run : cmd.fire ? cmd.fire : cmd.execute ? cmd.execute : cmd.callback ? cmd.callback : null
+            if (running == null) throw new Error(colour("[CDHANDLER] [ERROR]", { textColour: "red" }) + " Missing run function in " + cmd.name);
+            else r = await running({ message, args, client, handler })
+            if (typeof r == "string") result = [r]
+
+            result?.forEach((r: any) => {
+                message.channel.send(r)
+            })
+
+            return;
+
+         } else {
 
          if (fire) {
            fire({ message, args, client, handler })
@@ -152,6 +170,9 @@ export default (handler: any, client: Client, defaultPrefix: string, ping: boole
          } else {
              throw new Error(colour("[CDHANDLER] [ERROR]", { textColour: "red" }) + " Missing run function in " + cmd.name);
          }
+        }
+
+        
       
     } else return false;
 } 

@@ -50,18 +50,19 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
 
                         // @ts-ignore
                         let slashes = await client.api.applications(client.user?.id).commands.get().catch((err: any) => console.error(err))
-                        let slashCommand = slashes.find((s: any) => s.name.toLowerCase() == cmd.name) ?? null
+                        let slashCommand = slashes.find((s: any) => s.name.toLowerCase() == cmd.name.toLowerCase()) ?? null
                         if (slashCommand == null) continue;
                         else {
-
-
-                            // @ts-ignore
-                            await client.api.applications(client.user?.id).commands(slashCommand.id).delete().catch((err: any) => console.error(err))
-                            console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting slash command " + slashCommand.name)
+                            await fetch(`https://discord.com/api/v8/applications/${client.user!.id}/commands/${slashCommand.id}`, {
+                                method: 'delete',
+                                headers: {
+                                  'Authorization': 'Bot ' + client.token,
+                                  'Content-Type': 'application/json'
+                                }
+                              }).catch((err: any) => console.error(err))
+                              console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting global slash command " + cmd.name)
                         }
                     } else {
-
-                        let deleted = false;
 
                         cmd.servers.forEach(async (server: any) => {
 
@@ -78,12 +79,11 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                                   'Authorization': 'Bot ' + client.token,
                                   'Content-Type': 'application/json'
                                 }
-                              })
-                                deleted = true;
+                              }).catch((err: any) => console.error(err))
+                              console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting slash command " + cmd.name)
                             }
                         })
 
-                        if (deleted) console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting slash command " + cmd.name)
                     }
                 } else {
 
