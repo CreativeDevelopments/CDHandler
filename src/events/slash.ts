@@ -24,7 +24,9 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
             send.content = await cmd!.run({ interaction, guild, channel, member, user, handler })
 
             if (typeof send == "object") {
-              send = await createAPIMessage(client, interaction, send)
+              // @ts-ignore
+              send.content = (await createAPIMessage(client, interaction, send)).content
+              
               console.log(send, "\n\n\n\n\n\n\n\n\n");
               console.log(send[0])
             }
