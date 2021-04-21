@@ -44,8 +44,11 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
         }
 
         if (data.toSend instanceof MessageEmbed) {
-          data.embed = await createAPIMessage(client, interaction, toSend) as any
-          data.embed = JSON.stringify(data.embed)
+          let created = await createAPIMessage(client, interaction, toSend) as any
+          console.log(created, "\n\n\n\n")
+          data.embed = JSON.stringify(created)
+          console.log(data)
+          console.log(data.embed)
         } else {
           data.content = toSend
         }
