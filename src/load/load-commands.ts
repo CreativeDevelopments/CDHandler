@@ -50,12 +50,12 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                     if (!cmd.servers || !cmd.servers[0]) {
 
                         // @ts-ignore
-                        let slashes = await client.api.applications(client.user?.id).commands.get()
+                        let slashes = await client.api.applications(client.user?.id).commands.get().catch((err: any) => console.error(err))
                         let slashCommand = slashes.find((s: any) => s.name.toLowerCase() == cmd.name) ?? null
                         if (slashCommand == null) continue;
                         else {
                             // @ts-ignore
-                            await client.api.applications(client.user?.id).commands(slashCommand.id).delete()
+                            await client.api.applications(client.user?.id).commands(slashCommand.id).delete().catch((err: any) => console.error(err))
                             console.log(colour("[CDHandler]", { textColour: "red" }) + " Deleting slash command " + slashCommand.name)
                         }
                     } else {
@@ -65,13 +65,13 @@ const register = async (dir: any, Fcommands: Collection<string, Record<string, a
                         cmd.servers.forEach(async (server: any) => {
 
                             // @ts-ignore
-                            let sls = await client.api.applications(client.user?.id).guilds(server.id).commands.get()
+                            let sls = await client.api.applications(client.user?.id).guilds(server.id).commands.get().catch((err: any) => console.error(err))
                             let sl = sls.find((s: any) => s.name.toLowerCase() == cmd.name) ?? null
 
                             if (sl == null) return;
                             else {
                                 // @ts-ignore
-                                await client.api.applications(client.user?.id).guilds(server.id).commands(sl.id).delete()
+                                await client.api.applications(client.user?.id).guilds(server.id).commands(sl.id).delete().catch((err: any) => console.error(err))
                                 deleted = true;
                             }
                         })
