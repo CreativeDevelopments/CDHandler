@@ -7,6 +7,7 @@ import fireMessage from './events/message';
 import loadDefaultCommands from './defaults/load-commands';
 import colour from "cdcolours";
 import slashing from "./events/slash"
+import { connect } from "mongoose"
 
   interface CDHandler {
     client: Client,
@@ -18,7 +19,6 @@ import slashing from "./events/slash"
     commandsDir?: string | boolean,
     eventsDir?: string | boolean,
     featuresDir?: string | boolean,
-    warnings?: boolean
     };
 
     type CDH = {
@@ -31,12 +31,14 @@ import slashing from "./events/slash"
       pingReply?: boolean,
       devs?: string[] | undefined,
       warnings?: boolean,
+      mongo?: string
     }
     
     class CDHandler {
 
       private _prefix = "!";
       private _warnings = false;
+      private _mongo = false;
 
       public commands: Collection<string, Record<string, any>> = new Collection();
       public aliases: Collection<string[], Record<string, any>> = new Collection();
@@ -52,7 +54,6 @@ import slashing from "./events/slash"
       private static _commandsDir = "commands";
       private static _eventsDir = "events";
       private static _featuresDir = "features";
-
      
           constructor(client: Client, options?: CDH) {
 
@@ -63,15 +64,30 @@ import slashing from "./events/slash"
 
           if (options?.warnings) this._warnings = true;
           if (options?.prefix) this._prefix = options.prefix;
+          if (options?.mongo) {
+            (async () => {
+            await connect(options?.mongo as any, {
+              useNewUrlParser: true,
+              useUnifiedTopology: true,
+              useFindAndModify: false,
+              useCreateIndex: true,
+              keepAlive: true,
+            }).catch((err: any) => { 
+              throw new Error(colour("[CDHandler] [ERROR]", { textColour: "red" }) + " Couldn't connect to MongoDB\n" + err)
+            })
+
+            console.log(colour("[CDHandler]", { textColour: "yellow" }) + " Connected to MongoDB.")
+          })()
+          }
   
           this.defaults = options?.defaults ? options.defaults : CDHandler._defaults;
 
-          if (this._warnings) console.log(colour("[CDHandler] ", { textColour: "magenta" }) + " CoffeeScript support isn't stable.");
+          if (this._warnings) console.log(colour("[CDHandler]", { textColour: "magenta" }) + " CoffeeScript support isn't stable.");
     
           if (options?.commandsDir) {
             loading((options.commandsDir || CDHandler._commandsDir), this.commands, this.aliases, this.categories, this.category, this.client, this.slash);
             fireMessage(this, this.client, this._prefix, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
-            slashing(this.slash, this.client)
+            slashing(this.slash, this.client, this)
           };
     
           if (this.defaults) { 
