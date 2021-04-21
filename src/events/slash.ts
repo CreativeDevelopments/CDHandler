@@ -40,6 +40,7 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
         if (send instanceof MessageEmbed) {
           send = await createAPIMessage(client, interaction, send) as any
           send = send.embed
+          send = JSON.stringify(send)
         };
        
         // @ts-ignore
