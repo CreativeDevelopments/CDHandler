@@ -45,7 +45,8 @@ export default (map: Collection<string, Record<string, any>>, client: Client, ha
 
         if (typeof data.toSend == "object") {
           let created = await createAPIMessage(client, interaction, toSend) as any
-          data.embed = JSON.stringify(created)
+          data.embed = JSON.parse(created)
+          console.log(data.embed)
         } else {
           data.content = toSend
         }
