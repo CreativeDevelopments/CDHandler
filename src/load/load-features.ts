@@ -1,39 +1,22 @@
-import { join } from "path";
-import { readdirSync, lstatSync, existsSync, mkdirSync } from "fs";
+import loader from './loader';
 import colour from 'cdcolours';
 import { Client } from "discord.js";
 
 const load = async (client: Client, dir: any) => {
+    loader(dir, async ({ path, name, ext, filename }) => {
+        if(filename.endsWith('.d.ts')) return;
 
-    const exists = existsSync(join(process.cwd(), dir))
-    if (!exists) { 
-        console.warn(colour("[CDHandler]", { textColour: "red" }) + " Cannot find the folder " + dir + " creating one...")
-        mkdirSync(dir, { recursive: true })
-    }
+        const loaded = () => console.log(colour("[CDHandler]", { textColour: "magenta" }) + ` Loading feature ${name}`);
 
-    const files = readdirSync(join(dir))
-    for (const file of files) {
-
-        const isFolder = lstatSync(join(process.cwd(), dir, file))
-        if (isFolder.isDirectory()) load(client, join(dir, file))
-        else {
-
-            if (file.endsWith(".ts") && !file.endsWith(".d.ts")) {
-                (await import(join(process.cwd(), dir, file))).default(client);
-
-                const name = file.split(".")[0];
-                console.log(colour("[CDHandler]", { textColour: "magenta" }) + ` Loading feature ${name}`);
-
-            } else if (file.endsWith(".coffee") || file.endsWith(".js") && !file.endsWith(".d.ts")) {
-
-                require(join(process.cwd(), dir, file))(client);
-
-                const nam = file.split(".")[0];
-                console.log(colour("[CDHandler]", { textColour: "magenta" }) + ` Loading feature ${nam}`);
-
-            } else continue;
-
-        }}
+        if (filename.endsWith(".ts")) {
+            (await import(path)).default(client);
+            return loaded();
+        }
+        if (ext in require.extensions) {
+            require(path)(client);
+            return loaded();
+        }
+    });
 }
 
 export default load;
