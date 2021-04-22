@@ -36,9 +36,7 @@ import { connect } from "mongoose"
     
     class CDHandler {
 
-      private _prefix = "!";
       private _warnings = false;
-      private _mongo = false;
 
       public commands: Collection<string, Record<string, any>> = new Collection();
       public aliases: Collection<string[], Record<string, any>> = new Collection();
@@ -63,7 +61,7 @@ import { connect } from "mongoose"
           this.devs = options?.devs ?? [];
 
           if (options?.warnings) this._warnings = true;
-          if (options?.prefix) this._prefix = options.prefix;
+          if (options?.prefix) this.prefix = options.prefix || "!";
           if (options?.mongo) {
             (async () => {
             await connect(options?.mongo as any, {
@@ -86,7 +84,7 @@ import { connect } from "mongoose"
     
           if (options?.commandsDir) {
             loading((options.commandsDir || CDHandler._commandsDir), this.commands, this.aliases, this.categories, this.category, this.client, this.slash);
-            fireMessage(this, this.client, this._prefix, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
+            fireMessage(this, this.client, this.prefix as string, this.pingReply, this.commands, this.aliases, this.prefixes, this.devs, this.cd);
             slashing(this.slash, this.client, this)
           };
     

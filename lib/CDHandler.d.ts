@@ -23,9 +23,7 @@ declare type CDH = {
     mongo?: string;
 };
 declare class CDHandler {
-    private _prefix;
     private _warnings;
-    private _mongo;
     commands: Collection<string, Record<string, any>>;
     aliases: Collection<string[], Record<string, any>>;
     prefixes: Collection<string, Record<string, any>>;
