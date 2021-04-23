@@ -1,10 +1,10 @@
-import loader from './loader';
+import loader, { loadTypes } from './loader';
 import colour from 'cdcolours';
 import { Collection, Client } from "discord.js";
 import fetch from 'node-fetch'
 
 const register = async (dir: any, Fcommands: Collection<string, Record<string, any>>, Faliases: Collection<string[], Record<string, any>>, Fcategories: any, Fcategory: string, client: Client, Fslash: Collection<string, Record<string, string>>) => {
-    loader(dir, async ({ path, name, ext, filename }) => {
+    loader(dir, async ({ path, name, ext, filename }: loadTypes) => {
         if(filename.endsWith('.d.ts')) return;
         if (filename.endsWith(".ts") || ext in require.extensions) {
 

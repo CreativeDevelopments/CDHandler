@@ -1,9 +1,9 @@
-import loader from './loader';
+import loader, { loadTypes } from './loader';
 import colour from 'cdcolours';
 import { Client } from "discord.js";
 
 const load = async (client: Client, dir: any) => {
-    loader(dir, async ({ path, name, ext, filename }) => {
+    loader(dir, async ({ path, name, ext, filename }: loadTypes) => {
         if(filename.endsWith('.d.ts')) return;
 
         const loaded = () => console.log(colour("[CDHandler]", { textColour: "green" }) + ` Loading event ${name}`);

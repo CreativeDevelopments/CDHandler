@@ -3,7 +3,14 @@ import { readdir, lstat, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import colour from 'cdcolours';
 
-const loader = async (dir:string, callback:Function) => {
+type loadTypes = {
+    path: string
+    name: string
+    ext: string
+    filename: string
+}
+
+const loader = async (dir: string, callback: Function) => {
     const path = isAbsolute(dir) ? dir : join(process.cwd(), dir);
 
     if(!existsSync(path)){
@@ -35,3 +42,4 @@ const loader = async (dir:string, callback:Function) => {
 }
 
 export default loader;
+export { loadTypes }
