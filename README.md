@@ -14,4 +14,4 @@
 
 # Read our guide
 
-- [Guide](https://creativedevelopments.gitbook.io/cdhandler/)
+- [Guide](https://docs.creativedevelopments.org/cdhandler/)
