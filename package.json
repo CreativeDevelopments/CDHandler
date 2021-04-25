@@ -9,8 +9,8 @@
     "build": "tsc -p ."
   },
   "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "author": "CreativeDevelopments",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@types/typescript": "^2.0.0"
   },
