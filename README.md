@@ -1,10 +1,37 @@
-[![](https://img.shields.io/discord/769710808435261490.svg?style=flat-square)](https://discord.gg/jUNbV5u)
-[![](https://img.shields.io/npm/dt/cdhandler.svg?style=flat-square)](https://www.npmjs.com/package/cdhandler)
-[![](https://img.shields.io/npm/dm/cdhandler.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/cdhandler)
-[![](https://img.shields.io/npm/v/cdhandler.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/cdhandler)
-[![](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](https://github.com/CreativeDevelopments/CDHandler)
+<!-- Title -->
+<div align="center">
+  <h3>CDHandler</h3>
+  <h4>A simple to use TypeScript, JavaScript and CoffeeScript handler for Discord.js bots!</h4>
+</div>
 
 <br>
+
+<!-- Badges -->
+<p align="center">
+  <a href="https://discord.gg/jUNbV5u" target="_blank">
+    <img src="https://img.shields.io/discord/769710808435261490.svg?logo=discord" alt="Discord Server">
+  </a>
+  <a href="https://www.npmjs.com/package/cdhandler" target="_blank">
+    <img src="https://img.shields.io/npm/dt/cdhandler.svg?logo=npm" alt="Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/cdhandler" target="_blank">
+    <img src="https://img.shields.io/npm/dm/cdhandler.svg?logo=npm" alt="Monthly Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/cdhandler" target="_blank">
+    <img src="https://img.shields.io/npm/v/cdhandler.svg?style=color=blue&logo=npm" alt="Version">
+  </a>
+  <a href="https://github.com/CreativeDevelopments/CDHandler/blob/main/LICENSE" target="_blank">
+    <img src="https://img.shields.io/badge/license-Apache%202-blue.svg?logo=apache" alt="License">
+  </a>
+  <a href="https://patreon.com/_CreativeDevelopments" target="_blank">
+    <img src="https://img.shields.io/badge/Patreon-__CreativeDevelopments-blue.svg?logo=patreon" alt="Patreon">
+  </a>
+  <a href="https://github.com/CreativeDevelopments/CDHandler" target="_blank">
+    <img src="https://img.shields.io/github/stars/CreativeDevelopments/CDHandler?style=social&logo=github" alt="Stars">
+  </a>
+</p>
+
+---
 
 # We have now moved this over to our new [Guide](https://docs.creativedevelopments.org/cdhandler)
 
